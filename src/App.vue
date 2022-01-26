@@ -1,17 +1,21 @@
-<template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+<template lang="pug">
+SingleNav
+RouterView
 </template>
+
+<script lang="ts">
+import SingleNav from '@/components/SingleNav.vue';
+
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+    components: {
+        SingleNav,
+    },
+});
+</script>
 
 <style lang="stylus">
 #app
-  font-family Avenir, Helvetica, Arial, sans-serif
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  text-align center
   color #2c3e50
-  margin-top 60px
 </style>
