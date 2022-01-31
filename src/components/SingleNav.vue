@@ -23,7 +23,8 @@ nav.flex.items-center.justify-between.flex-wrap.bg-violet-500.p-2.drop-shadow-md
                 | Technologies
         div
             a.flex.flex-row.justify-center.align-center.items-center.text-sm.px-4.py-2.leading-none.border.rounded.text-white.border-white.mt-4.transition.duration-500.font-bold(
-                href='#',
+                href='https://github.com/afaferz',
+                target='_blank',
                 class='hover:border-transparent hover:text-violet-500 hover:bg-white lg:mt-0'
             )
                 span GitHub

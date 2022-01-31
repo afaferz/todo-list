@@ -8,6 +8,7 @@
         ) Adicionar Tarefa
         .flex-1.flex-col.bg-violet-300.rounded-b-md
             transition-group.flex.flex-col(
+                v-if='taskList.length > 0',
                 enter-active-class='transform-gpu',
                 enter-class='opacity-0 -translate-x-full',
                 enter-to-class='opacity-100 translate-x-0',
@@ -22,6 +23,7 @@
                     v-bind:key='task.id'
                 )
                     TaskItem(:task='task')
+            .bg-violet-500.p-2.text-center.text-md.font-black Add one task
     ModalAddTask
 </template>
 
