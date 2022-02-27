@@ -23,12 +23,17 @@
                     v-bind:key='task.id'
                 )
                     TaskItem(:task='task')
-            .bg-violet-500.p-2.text-center.text-md.font-black Add one task
+            .bg-violet-400.p-2.text-center.text-lg.font-black.h-44.flex.items-center.justify-center(
+                v-else
+            ) Congratulations! No task to do
+                span.ml-2.text-3xl &#x1F973;
     ModalAddTask
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from 'vue';
+import {
+    computed, defineComponent, onMounted, ref,
+} from 'vue';
 import { useStore } from '@/store';
 import TaskItem from '@/components/Task/TaskItem.vue';
 import ModalAddTask from '@/components/Task/ModalAddTask.vue';
@@ -64,19 +69,17 @@ export default defineComponent({
             this.CONTROL_MODAL(true);
             this.SET_ADD();
         },
-        beforeLeave(el: any) {
-            const { marginLeft, marginTop, width, height } = window.getComputedStyle(el);
+        beforeLeave(el: HTMLElement) {
+            const {
+                marginLeft, marginTop, width, height,
+            } = window.getComputedStyle(el);
 
-            console.log(window.getComputedStyle(el));
-            // eslint-disable-next-line no-param-reassign
-            el.style.left = `${el.offsetLeft - parseFloat(marginLeft)}px`;
-            // eslint-disable-next-line no-param-reassign
-            el.style.top = `${el.offsetTop - parseFloat(marginTop)}px`;
-            // console.log(marginLeft)
-            // eslint-disable-next-line no-param-reassign
-            el.style.width = width;
-            // eslint-disable-next-line no-param-reassign
-            el.style.height = height;
+            const element = el;
+
+            element.style.left = `${el.offsetLeft - parseFloat(marginLeft)}px`;
+            element.style.top = `${el.offsetTop - parseFloat(marginTop)}px`;
+            element.style.width = width;
+            element.style.height = height;
         },
     },
 });

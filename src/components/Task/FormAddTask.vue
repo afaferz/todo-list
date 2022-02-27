@@ -9,15 +9,15 @@ form.form-content
                 class='focus:ring focus:ring-violet-500',
                 v-model='taskName'
             )
-                //- v-model=''
         .flex.flex-col
             label(:class='[...classes.label]', for='status') Status:
             select#status.outline-none.py-1.px-2.text-md.border-2.rounded-md.bg-white(
                 class='focus:ring focus:ring-violet-500',
                 v-model='taskStatus'
             )
-                option(value='pending') A fazer
-                option(value='done') Feito
+                option(value='false') A fazer
+                option(value='true') Feito
+            span {{ taskStatus }}
         .flex.flex-col
             label(:class='[...classes.label]', for='type') Tipo:
             input#type.outline-none.py-1.px-2.text-md.border-2.rounded-md(
@@ -34,14 +34,14 @@ form.form-content
                 min='1',
                 max='5',
                 step='1',
-                v-model='taskPriority'
+                v-model.number='taskPriority'
             )
             ul.flex.flex-row.justify-between.w-full(class='px-[10px]')
                 li.flex.justify-center.relative(v-for='(n, index) in 5', :key='n')
                     span.text-violet-400.font-sans.font-bold.number-priority.absolute.pt-3(
                         :style='{ left: rangeSpace[index].left, right: rangeSpace[index].right }'
                     ) {{ n }}
-        .flex.flex-col
+        .flex.flex-col.pt-7
             label(:class='[...classes.label]', for='description') Description:
             textarea#description.w-full.font-serif.p-4.text-gray-600.bg-violet-100.outline-none.rounded-md.resize-none(
                 class='focus:ring focus:ring-violet-500',
