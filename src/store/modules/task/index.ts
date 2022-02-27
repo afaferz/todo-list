@@ -6,7 +6,7 @@ const TaskModule: Module<any, any> = {
     namespaced: true,
     state: {
         tasks: [] as ITask[],
-        singleTask: {
+        task: {
             name: '',
             status: false,
             type: '',
@@ -27,14 +27,14 @@ const TaskModule: Module<any, any> = {
         },
         EDIT_TASK(state, payload) {
             const taskToEdit = state.tasks.find(({ id }: any) => id === payload);
-            state.singleTask = taskToEdit;
+            state.task = taskToEdit;
         },
         DELETE_TASK(state, payload) {
             const index = state.tasks.indexOf(payload);
             state.tasks.splice(index, 1);
         },
         RESET_TASK(state) {
-            state.singleTask = {
+            state.task = {
                 name: '',
                 status: false,
                 type: '',
@@ -51,7 +51,7 @@ const TaskModule: Module<any, any> = {
         },
         UPDATE_TASK_FIELD(state, payload: string[]): void {
             const [field, value] = payload;
-            state.singleTask[field] = value;
+            state.task[field] = value;
         },
         SET_ACTION_TASK_TYPE(state, payload: string) {
             console.log(payload);
@@ -103,12 +103,12 @@ const TaskModule: Module<any, any> = {
     },
 
     getters: {
-        GET_TASK_NAME: (state) => state.singleTask.name,
-        GET_TASK_STATUS: (state) => state.singleTask.status,
-        GET_TASK_TYPE: (state) => state.singleTask.type,
-        GET_TASK_PRIORITY: (state) => state.singleTask.priority,
-        GET_TASK_DESCRIPTION: (state) => state.singleTask.description,
-        GET_SINGLE_TASK: (state) => state.singleTask,
+        GET_TASK_NAME: (state) => state.task.name,
+        GET_TASK_STATUS: (state) => state.task.status,
+        GET_TASK_TYPE: (state) => state.task.type,
+        GET_TASK_PRIORITY: (state) => state.task.priority,
+        GET_TASK_DESCRIPTION: (state) => state.task.description,
+        GET_SINGLE_TASK: (state) => state.task,
         GET_ALL_TASKS: (state) => state.tasks.sort((taskOne: ITask, taskTwo: ITask) => taskTwo.priority - taskOne.priority),
         GET_PENDING_TASKS: (state) => state.tasks.filter(({ status }: any) => status === false),
         GET_DONE_TASKS: (state) => state.tasks.filter(({ status }: any) => status === true),

@@ -21,7 +21,5 @@ export default defineComponent({
         LoaderDefault,
         TodoLogo,
     },
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    // setup() {},
 });
 </script>
