@@ -1,4 +1,4 @@
-# scrum-card
+# A simple ToDo list
 
 ## Project setup
 ```
