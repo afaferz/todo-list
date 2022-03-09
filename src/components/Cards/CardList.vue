@@ -28,7 +28,6 @@
                 .w-14.h-14.p-2.mr-4.flex.justify-center.align-center
                     img(
                         :src='tech.iconPath',
-                        :style='{ "padding-top": tech.name === "PHP" ? "10px" : "" }'
                     )
                 h4.text-md.text-gray-900.pl-4(class='dark:text-gray-100') {{ tech.name }}
 </template>
@@ -73,14 +72,19 @@ export default defineComponent({
                 ],
                 backend: [
                     {
-                        name: 'PHP',
+                        name: 'Golang',
                         // eslint-disable-next-line global-require
-                        iconPath: require('@/assets/images/logos/php-logo.svg'),
+                        iconPath: require('@/assets/images/logos/golang-logo.svg'),
                     },
                     {
-                        name: 'MySQL',
+                        name: 'PostgreSQL',
                         // eslint-disable-next-line global-require
-                        iconPath: require('@/assets/images/logos/my-sql-logo.svg'),
+                        iconPath: require('@/assets/images/logos/postgresql-logo.svg'),
+                    },
+                    {
+                        name: 'Docker',
+                        // eslint-disable-next-line global-require
+                        iconPath: require('@/assets/images/logos/docker-logo.svg'),
                     },
                 ],
             },

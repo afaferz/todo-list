@@ -81,7 +81,6 @@ const TaskModule: Module<any, any> = {
             commit('SET_SHOW_MODAL', false);
         },
         async SAVE_EDIT_TASK({ commit }, payload) {
-            console.log(payload.id);
             try {
                 await $axios.patch(`http://localhost:3030/api/tasks/${payload.id}/`, payload);
             } catch (error) {
@@ -110,9 +109,13 @@ const TaskModule: Module<any, any> = {
         // Form add task ---- end
         GET_SINGLE_TASK: (state) => state.task,
         // Get tasks by priority ---- init
-        GET_TASKS_BY_PRIORITY: (state) => (priorityLevel: number) => state.tasks.filter(({ priority }: { priority: number }) => priority === priorityLevel),
+        GET_ALL_TASKS: (state) => state.tasks.sort((taskOne: ITask, taskTwo: ITask) => taskOne.id - taskTwo.id),
+        GET_TASKS_BY_PRIORITY: (state, getters) => (priorityLevel: number) => {
+            const allTasks = getters.GET_ALL_TASKS;
+
+            return allTasks.filter(({ priority }: { priority: number }) => priority === priorityLevel);
+        },
         // Get tasks by priority ---- end
-        GET_ALL_TASKS: (state) => state.tasks.sort((taskOne: ITask, taskTwo: ITask) => taskTwo.priority - taskOne.priority),
         GET_PENDING_TASKS: (state) => state.tasks.filter(({ status }: any) => status === false),
         GET_DONE_TASKS: (state) => state.tasks.filter(({ status }: any) => status === true),
         GET_ACTION_TASK_TYPE: (state) => state.actionType,

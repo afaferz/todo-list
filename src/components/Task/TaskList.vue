@@ -48,8 +48,8 @@ export default defineComponent({
         },
     },
     setup(props) {
-        const tasksDone = props.tasksList.filter((item) => item.status === true);
-        const tasksPending = props.tasksList.filter((item) => item.status === false);
+        const tasksDone = props.tasksList.filter((item: any) => item.status === true);
+        const tasksPending = props.tasksList.filter((item: any) => item.status === false);
         return {
             tasksDone,
             tasksPending,
