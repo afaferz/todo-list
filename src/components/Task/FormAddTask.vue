@@ -15,9 +15,8 @@ form.form-content
                 class='focus:ring focus:ring-violet-500',
                 v-model='taskStatus'
             )
-                option(value='false') A fazer
-                option(value='true') Feito
-            span {{ taskStatus }}
+                option(value='false') To-Do
+                option(value='true') Done
         .flex.flex-col
             label(:class='[...classes.label]', for='type') Tipo:
             input#type.outline-none.py-1.px-2.text-md.border-2.rounded-md(

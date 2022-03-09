@@ -110,8 +110,17 @@ export default defineComponent({
         finishTask(id: number, taskStatus: string) {
             this.SET_TASK_STATUS({ id, done: !taskStatus });
         },
-        formatDate(date: string) {
-            console.log(date);
+        formatDate(dbDate: string) {
+            const dateParse = Date.parse(dbDate);
+            const dateObj = new Date(dateParse);
+
+            const dateFormat = new Intl.DateTimeFormat('pt-br', {
+                dateStyle: 'short',
+                timeStyle: 'long',
+            }).format(dateObj);
+
+            const [date, hour] = dateFormat.split(' ');
+            return `${date} ${hour}`;
         },
     },
 });

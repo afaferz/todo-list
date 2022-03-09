@@ -1,7 +1,8 @@
 <template lang="pug">
 .font-sans(class='md:container md:mx-auto')
-    .grid.grid-cols-7.my-2
-        h1 Task Priority {{ tasksPriority }}
+    .grid.grid.my-2
+        .p-3(:class='colorPriority')
+            span.font-black.text-neutral-200.text-lg PRIORITY: {{ tasksPriority }}
     .flex-1.flex-col.bg-violet-300.rounded-b-md
         transition-group.flex.flex-col(
             v-if='tasksList.length > 0',
@@ -59,6 +60,26 @@ export default defineComponent({
             classes: ['bg-indigo-500', 'bg-green-500', 'bg-rose-600'] as string[],
             showModalAddTask: false,
         };
+    },
+    computed: {
+        colorPriority() {
+            let bg = 'bg-red-600';
+            switch (this.tasksPriority) {
+            case 'HIGH':
+                bg = 'bg-red-400';
+                break;
+            case 'MEDIUM':
+                bg = 'bg-yellow-400';
+                break;
+            case 'LOW':
+                bg = 'bg-green-400';
+                break;
+            default:
+                bg = 'bg-red-400';
+                break;
+            }
+            return bg;
+        },
     },
     methods: {
         beforeLeave(el: HTMLElement) {

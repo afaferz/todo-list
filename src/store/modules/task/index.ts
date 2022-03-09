@@ -64,7 +64,7 @@ const TaskModule: Module<any, any> = {
     actions: {
         async GET_TASKS({ commit }) {
             try {
-                const { data } = await $axios.get('http://localhost:8080/api/tasks/');
+                const { data } = await $axios.get('http://localhost:3030/api/tasks/');
                 commit('SET_TASKS', data);
             } catch (error) {
                 console.log(error);
@@ -72,20 +72,18 @@ const TaskModule: Module<any, any> = {
         },
         async SAVE_NEW_TASK({ commit, dispatch }, payload) {
             try {
-                await $axios.post('http://localhost:8080/api/tasks/', payload);
-                // commit('SET_TASKS', data);
+                await $axios.post('http://localhost:3030/api/tasks/', payload);
             } catch (error) {
                 console.log(error);
             }
             await dispatch('GET_TASKS');
-            commit('ADD_TASK', payload);
             commit('RESET_TASK');
             commit('SET_SHOW_MODAL', false);
         },
         async SAVE_EDIT_TASK({ commit }, payload) {
             console.log(payload.id);
             try {
-                await $axios.patch(`http://localhost:8080/api/tasks/${payload.id}/`, payload);
+                await $axios.patch(`http://localhost:3030/api/tasks/${payload.id}/`, payload);
             } catch (error) {
                 console.log(error);
             }
@@ -93,7 +91,7 @@ const TaskModule: Module<any, any> = {
         },
         async DELETE_TASK({ state, commit }, payload) {
             try {
-                await $axios.delete(`http://localhost:8080/api/tasks/${payload}/`);
+                await $axios.delete(`http://localhost:3030/api/tasks/${payload}/`);
                 const taskToDelete = state.tasks.find(({ id }: any) => id === payload);
                 commit('DELETE_TASK', taskToDelete);
             } catch (error) {
@@ -112,9 +110,7 @@ const TaskModule: Module<any, any> = {
         // Form add task ---- end
         GET_SINGLE_TASK: (state) => state.task,
         // Get tasks by priority ---- init
-        GET_LOW_PRIORITY_TASKS: (state) => state.tasks.filter(({ priority }: { priority: number }) => priority === 1),
-        GET_MEDIUM_PRIORITY_TASKS: (state) => state.tasks.filter(({ priority }: { priority: number }) => priority === 2),
-        GET_HIGH_PRIORITY_TASKS: (state) => state.tasks.filter(({ priority }: { priority: number }) => priority === 3),
+        GET_TASKS_BY_PRIORITY: (state) => (priorityLevel: number) => state.tasks.filter(({ priority }: { priority: number }) => priority === priorityLevel),
         // Get tasks by priority ---- end
         GET_ALL_TASKS: (state) => state.tasks.sort((taskOne: ITask, taskTwo: ITask) => taskTwo.priority - taskOne.priority),
         GET_PENDING_TASKS: (state) => state.tasks.filter(({ status }: any) => status === false),

@@ -30,9 +30,9 @@ export default defineComponent({
     async setup() {
         const store = useStore();
         await store.dispatch('task/GET_TASKS');
-        const highPriorityTasks = computed(() => store.getters['task/GET_HIGH_PRIORITY_TASKS']);
-        const mediumPriorityTasks = computed(() => store.getters['task/GET_MEDIUM_PRIORITY_TASKS']);
-        const lowPriorityTasks = computed(() => store.getters['task/GET_LOW_PRIORITY_TASKS']);
+        const highPriorityTasks = computed(() => store.getters['task/GET_TASKS_BY_PRIORITY'](1));
+        const mediumPriorityTasks = computed(() => store.getters['task/GET_TASKS_BY_PRIORITY'](2));
+        const lowPriorityTasks = computed(() => store.getters['task/GET_TASKS_BY_PRIORITY'](3));
         const CONTROL_MODAL = (status: boolean) => store.commit('task/SET_SHOW_MODAL', status);
         const SET_ADD = () => store.commit('task/SET_ACTION_TASK_TYPE', 'add');
 
