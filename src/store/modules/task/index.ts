@@ -54,7 +54,6 @@ const TaskModule: Module<any, any> = {
             state.task[field] = value;
         },
         SET_ACTION_TASK_TYPE(state, payload: string) {
-            console.log(payload);
             state.actionType = payload;
         },
         SET_SHOW_MODAL(state, payload: boolean) {
@@ -84,8 +83,9 @@ const TaskModule: Module<any, any> = {
             commit('SET_SHOW_MODAL', false);
         },
         async SAVE_EDIT_TASK({ commit }, payload) {
+            console.log(payload.id);
             try {
-                await $axios.patch(`http://localhost:8080/api/tasks/${payload.id}`, payload);
+                await $axios.patch(`http://localhost:8080/api/tasks/${payload.id}/`, payload);
             } catch (error) {
                 console.log(error);
             }
@@ -93,7 +93,7 @@ const TaskModule: Module<any, any> = {
         },
         async DELETE_TASK({ state, commit }, payload) {
             try {
-                await $axios.delete(`http://localhost:8080/api/tasks/${payload}`);
+                await $axios.delete(`http://localhost:8080/api/tasks/${payload}/`);
                 const taskToDelete = state.tasks.find(({ id }: any) => id === payload);
                 commit('DELETE_TASK', taskToDelete);
             } catch (error) {
@@ -103,12 +103,19 @@ const TaskModule: Module<any, any> = {
     },
 
     getters: {
+        // Form add task ---- init
         GET_TASK_NAME: (state) => state.task.name,
         GET_TASK_STATUS: (state) => state.task.status,
         GET_TASK_TYPE: (state) => state.task.type,
         GET_TASK_PRIORITY: (state) => state.task.priority,
         GET_TASK_DESCRIPTION: (state) => state.task.description,
+        // Form add task ---- end
         GET_SINGLE_TASK: (state) => state.task,
+        // Get tasks by priority ---- init
+        GET_LOW_PRIORITY_TASKS: (state) => state.tasks.filter(({ priority }: { priority: number }) => priority === 1),
+        GET_MEDIUM_PRIORITY_TASKS: (state) => state.tasks.filter(({ priority }: { priority: number }) => priority === 2),
+        GET_HIGH_PRIORITY_TASKS: (state) => state.tasks.filter(({ priority }: { priority: number }) => priority === 3),
+        // Get tasks by priority ---- end
         GET_ALL_TASKS: (state) => state.tasks.sort((taskOne: ITask, taskTwo: ITask) => taskTwo.priority - taskOne.priority),
         GET_PENDING_TASKS: (state) => state.tasks.filter(({ status }: any) => status === false),
         GET_DONE_TASKS: (state) => state.tasks.filter(({ status }: any) => status === true),

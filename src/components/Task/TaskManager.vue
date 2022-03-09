@@ -7,53 +7,39 @@
             @click='addTask'
         ) Adicionar Tarefa
         .flex-1.flex-col.bg-violet-300.rounded-b-md
-            transition-group.flex.flex-col(
-                v-if='taskList.length > 0',
-                enter-active-class='transform-gpu',
-                enter-class='opacity-0 -translate-x-full',
-                enter-to-class='opacity-100 translate-x-0',
-                leave-active-class='absolute transform-gpu',
-                leave-class='opacity-100 translate-x-0',
-                leave-to-class='opacity-0 -translate-x-full',
-                tag='div',
-                @before-leave='beforeLeave'
-            )
-                .task-list__box.rounded-lg.p-2.transition-all.duration-300(
-                    v-for='(task, key, index) in taskList',
-                    v-bind:key='task.id'
-                )
-                    TaskItem(:task='task')
-            .bg-violet-400.p-2.text-center.text-lg.font-black.h-44.flex.items-center.justify-center(
-                v-else
-            ) Congratulations! No task to do
-                span.ml-2.text-3xl &#x1F973;
+            TaskList(:tasks-list='highPriorityTasks', :tasks-priority='"HIGH"')
+        .flex-1.flex-col.bg-violet-300.rounded-b-md
+            TaskList(:tasks-list='mediumPriorityTasks', :tasks-priority='"MEDIUM"')
+        .flex-1.flex-col.bg-violet-300.rounded-b-md
+            TaskList(:tasks-list='lowPriorityTasks', :tasks-priority='"LOW"')
     ModalAddTask
 </template>
 
 <script lang="ts">
-import {
-    computed, defineComponent, onMounted, ref,
-} from 'vue';
+import { computed, defineComponent } from 'vue';
 import { useStore } from '@/store';
-import TaskItem from '@/components/Task/TaskItem.vue';
+import TaskList from '@/components/Task/TaskList.vue';
 import ModalAddTask from '@/components/Task/ModalAddTask.vue';
 
 export default defineComponent({
     name: 'TaskManager',
     components: {
-        TaskItem,
+        TaskList,
         ModalAddTask,
     },
     async setup() {
         const store = useStore();
-        const taskList = computed(() => store.getters['task/GET_ALL_TASKS']);
+        await store.dispatch('task/GET_TASKS');
+        const highPriorityTasks = computed(() => store.getters['task/GET_HIGH_PRIORITY_TASKS']);
+        const mediumPriorityTasks = computed(() => store.getters['task/GET_MEDIUM_PRIORITY_TASKS']);
+        const lowPriorityTasks = computed(() => store.getters['task/GET_LOW_PRIORITY_TASKS']);
         const CONTROL_MODAL = (status: boolean) => store.commit('task/SET_SHOW_MODAL', status);
         const SET_ADD = () => store.commit('task/SET_ACTION_TASK_TYPE', 'add');
 
-        await store.dispatch('task/GET_TASKS');
-
         return {
-            taskList,
+            highPriorityTasks,
+            mediumPriorityTasks,
+            lowPriorityTasks,
             CONTROL_MODAL,
             SET_ADD,
         };
@@ -68,18 +54,6 @@ export default defineComponent({
         addTask() {
             this.CONTROL_MODAL(true);
             this.SET_ADD();
-        },
-        beforeLeave(el: HTMLElement) {
-            const {
-                marginLeft, marginTop, width, height,
-            } = window.getComputedStyle(el);
-
-            const element = el;
-
-            element.style.left = `${el.offsetLeft - parseFloat(marginLeft)}px`;
-            element.style.top = `${el.offsetTop - parseFloat(marginTop)}px`;
-            element.style.width = width;
-            element.style.height = height;
         },
     },
 });

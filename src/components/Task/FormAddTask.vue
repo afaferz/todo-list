@@ -32,15 +32,20 @@ form.form-content
                 type='range',
                 class='focus:outline-none focus:ring-0 focus:shadow-none',
                 min='1',
-                max='5',
+                max='3',
                 step='1',
                 v-model.number='taskPriority'
             )
             ul.flex.flex-row.justify-between.w-full(class='px-[10px]')
-                li.flex.justify-center.relative(v-for='(n, index) in 5', :key='n')
-                    span.text-violet-400.font-sans.font-bold.number-priority.absolute.pt-3(
+                li.flex.justify-center.relative(
+                    v-for='({ label, value }, index) in rangeOptions',
+                    :key='value'
+                )
+                    .text-violet-400.font-sans.font-bold.level-priority.absolute.flex.flex-col(
                         :style='{ left: rangeSpace[index].left, right: rangeSpace[index].right }'
-                    ) {{ n }}
+                    )
+                        span.marker-priority
+                        span {{ label }}
         .flex.flex-col.pt-7
             label(:class='[...classes.label]', for='description') Description:
             textarea#description.w-full.font-serif.p-4.text-gray-600.bg-violet-100.outline-none.rounded-md.resize-none(
@@ -121,12 +126,24 @@ export default defineComponent({
                     'font-bold',
                 ],
             },
+            rangeOptions: [
+                {
+                    label: 'LOW',
+                    value: 1,
+                },
+                {
+                    label: 'MEDIUM',
+                    value: 2,
+                },
+                {
+                    label: 'HIGH',
+                    value: 3,
+                },
+            ],
             rangeSpace: [
-                { left: '4px', right: '' },
+                { left: '-9px', right: '' },
                 { left: '1px', right: '0' },
-                { left: '', right: '' },
-                { left: '-7px', right: '' },
-                { left: '', right: '2px' },
+                { left: '-28px', right: '' },
             ],
         };
     },
@@ -135,15 +152,23 @@ export default defineComponent({
 <style lang="stylus" scoped>
 .form-content
     width: 550px;
-.number-priority
-    &:before
-        content: '';
+.level-priority
+    justify-content: center
+    align-content: center
+    align-items: center
+    .marker-priority
+        display: inline-block
         background: rgb(167 139 250);
-        height: 10px;
-        position: absolute;
-        top: 3px;
-        left: 3px;
-        width: 2px;
+        width: 2px
+        height: 10px
+    &:before
+        // content: '';
+        // background: rgb(167 139 250);
+        // height: 10px;
+        // position: absolute;
+        // top: 3px;
+        // left: 50%;
+        // width: 2px;
 
 input[type=range]
     -webkit-appearance: none;
