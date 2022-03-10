@@ -4,23 +4,25 @@ div
         .modal-overlay(v-show='showModal', @click='clickOutside')
             .modal.bg-white
                 span.inline-block.text-center.text-2xl.font-bold.text-violet-400.mb-10 {{ actionTaskType === 'add' ? 'ADD' : 'EDIT' }} TASK
-                FormAddTask
+                FormMiscTask
                 .flex.flex-row.justify-end.mt-7.mb-2
-                    button.px-6.py-1.mr-2.block.rounded-md.text-lg.font-semibold.text-neutral-50.bg-rose-600(
+                    button.px-6.py-1.mr-2.bg-rose-600(
+                        :class='[...classes.button]',
                         @click='closeTask'
                     ) CANCEL
-                    button.px-6.py-1.block.rounded-md.text-lg.font-semibold.text-neutral-50.bg-violet-500(
+                    button.px-6.py-1.bg-violet-500(
+                        :class='[...classes.button]',
                         @click='modifyTask'
                     ) SAVE
 </template>
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
-import FormAddTask from '@/components/Task/FormAddTask.vue';
+import FormMiscTask from '@/components/Task/FormMiscTask.vue';
 import { useStore } from '@/store';
 
 export default defineComponent({
     components: {
-        FormAddTask,
+        FormMiscTask,
     },
     setup() {
         const store = useStore();
@@ -37,6 +39,13 @@ export default defineComponent({
             showModal,
             controlModal,
             resetTask,
+        };
+    },
+    data() {
+        return {
+            classes: {
+                button: ['block', 'rounded-md', 'text-lg', 'font-semibold', 'text-neutral-50'],
+            },
         };
     },
     methods: {

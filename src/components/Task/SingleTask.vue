@@ -9,7 +9,7 @@
         span.font-bold.my-3 {{ task.name }}
         span(v-if='task.description') {{ task.description }}
         .flex.flex-col.mt-5
-            span.uppercase.font-semibold.text-sm Tarefa criada em:
+            span.uppercase.font-semibold.text-sm Created At:
             span.text-sm {{ formatDate(task.created_at) }}
     .flex.justify-end.mt-4.align-self-end.transition.duration-700(
         class='md:mt-0 md:absolute md:top-1/2 md:-translate-y-1/2 md:right-4'
@@ -48,21 +48,17 @@
 <script lang="ts">
 import { useStore } from '@/store';
 import { defineComponent, PropType } from 'vue';
-
-interface Task {
-    id: number | null;
-    name: string;
-    status: boolean;
-    type?: string;
-    priority: number;
-    description?: string;
-}
+import ModalConfirm from '@/components/Modals/ModalConfirm.vue';
+import { ITask } from '@/@types/task';
 
 export default defineComponent({
     name: 'TaskItem',
+    components: {
+        ModalConfirm,
+    },
     props: {
         task: {
-            type: Object as PropType<Task>,
+            type: Object as PropType<ITask>,
             required: false,
             default: () => ({
                 id: 1,
@@ -79,7 +75,8 @@ export default defineComponent({
         const CONTROL_MODAL = (status: boolean) => store.commit('task/SET_SHOW_MODAL', status);
         const SET_EDIT = () => store.commit('task/SET_ACTION_TASK_TYPE', 'edit');
         const SET_TASK = (id: number) => store.commit('task/EDIT_TASK', id);
-        const SET_TASK_STATUS = (status: { id: number; done: boolean }) => store.dispatch('task/COMPLETE_TASK', status);
+        const SET_TASK_STATUS = (status: { id: number; done: boolean }) =>
+            store.dispatch('task/COMPLETE_TASK', status);
         const DELETE_TASK = (id: number) => store.dispatch('task/DELETE_TASK', id);
 
         return {

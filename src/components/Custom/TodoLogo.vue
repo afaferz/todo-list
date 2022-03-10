@@ -13,8 +13,6 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-    // setup() {},
+    name: 'TodoLogo',
 });
 </script>
-
-<style lang="stylus" scoped></style>

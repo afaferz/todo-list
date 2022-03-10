@@ -3,44 +3,41 @@ form.form-content
     .space-y-4
         .flex.flex-col
             label(:class='[...classes.label]', for='title') Title:
-            input#title.outline-none.py-1.px-2.text-md.border-2.rounded-md(
+            input#title(
+                v-model='taskName'
+                :class='[...classes.input]',
                 type='text',
                 placeholder='Task title',
-                class='focus:ring focus:ring-violet-500',
-                v-model='taskName'
             )
         .flex.flex-col
             label(:class='[...classes.label]', for='status') Status:
-            select#status.outline-none.py-1.px-2.text-md.border-2.rounded-md.bg-white(
-                class='focus:ring focus:ring-violet-500',
-                v-model='taskStatus'
-            )
+            select#status.bg-white(:class='[...classes.input]', v-model='taskStatus')
                 option(value='false') To-Do
                 option(value='true') Done
         .flex.flex-col
             label(:class='[...classes.label]', for='type') Tipo:
-            input#type.outline-none.py-1.px-2.text-md.border-2.rounded-md(
+            input#type(
+                v-model='taskType'
+                :class='[...classes.input]',
                 type='text',
                 placeholder='Task type',
-                class='focus:ring focus:ring-violet-500',
-                v-model='taskType'
             )
         .flex.flex-col
             label(:class='[...classes.label]', for='priority') Grau de Prioridade:
             input#priority.form-range.appearance-none.outline-none.w-full.text-md.bg-transparent(
-                type='range',
+                v-model.number='taskPriority'
                 class='focus:outline-none focus:ring-0 focus:shadow-none',
+                type='range',
                 min='1',
                 max='3',
                 step='1',
-                v-model.number='taskPriority'
             )
             ul.flex.flex-row.justify-between.w-full(class='px-[10px]')
                 li.flex.justify-center.relative(
                     v-for='({ label, value }, index) in rangeOptions',
                     :key='value'
                 )
-                    .text-violet-400.font-sans.font-bold.level-priority.absolute.flex.flex-col(
+                    .flex.flex-col.absolute.text-violet-400.font-sans.font-bold.level-priority(
                         :style='{ left: rangeSpace[index].left, right: rangeSpace[index].right }'
                     )
                         span.marker-priority
@@ -48,11 +45,11 @@ form.form-content
         .flex.flex-col.pt-7
             label(:class='[...classes.label]', for='description') Description:
             textarea#description.w-full.font-serif.p-4.text-gray-600.bg-violet-100.outline-none.rounded-md.resize-none(
+                v-model='taskDescription'
                 class='focus:ring focus:ring-violet-500',
+                placeholder='write about task here..',
                 cols='30',
                 rows='4',
-                placeholder='write about task here..',
-                v-model='taskDescription'
             )
 </template>
 <script lang="ts">
@@ -60,7 +57,7 @@ import { defineComponent, computed, WritableComputedRef } from 'vue';
 import { useStore } from '@/store';
 
 export default defineComponent({
-    name: 'FormAddTask',
+    name: 'FormMiscTask',
     setup() {
         const store = useStore();
 
@@ -124,6 +121,16 @@ export default defineComponent({
                     'uppercase',
                     'font-bold',
                 ],
+                input: [
+                    'rounded-md',
+                    'outline-none',
+                    'py-1',
+                    'px-2',
+                    'text-md',
+                    'border-2',
+                    'focus:ring',
+                    'focus:ring-violet-500',
+                ],
             },
             rangeOptions: [
                 {
@@ -160,14 +167,6 @@ export default defineComponent({
         background: rgb(167 139 250);
         width: 2px
         height: 10px
-    &:before
-        // content: '';
-        // background: rgb(167 139 250);
-        // height: 10px;
-        // position: absolute;
-        // top: 3px;
-        // left: 50%;
-        // width: 2px;
 
 input[type=range]
     -webkit-appearance: none;

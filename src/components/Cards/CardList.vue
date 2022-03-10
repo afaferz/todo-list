@@ -7,12 +7,12 @@
             span.text-violet-800.ml-4.font-black &#60; &#47; &#62;
 
         .my-5
-            .flex.items-center.pb-4.w-full.divide.divide-x-2.divide-violet-400(
-                class='dark:border-gray-700',
+            div(
                 v-for='tech in technologies.frontend',
-                :key='tech.name'
+                :key='tech.name',
+                :class='[...classes.itensRow]'
             )
-                .w-14.h-14.p-2.mr-4.flex.justify-center.align-center
+                div(:class='[...classes.itensContent]')
                     img(:src='tech.iconPath')
                 h4.text-md.text-violet-500.pl-4.font-bold(class='dark:text-violet-100') {{ tech.name }}
     div
@@ -20,15 +20,13 @@
             span.text-violet-800.ml-4.font-black &#123; &#125;
 
         .my-5
-            .flex.items-center.pb-4.w-full.divide.divide-x-2.divide-violet-400(
-                class='dark:border-gray-700',
+            div(
                 v-for='tech in technologies.backend',
-                :key='tech.name'
+                :key='tech.name',
+                :class='[...classes.itensRow]'
             )
-                .w-14.h-14.p-2.mr-4.flex.justify-center.align-center
-                    img(
-                        :src='tech.iconPath',
-                    )
+                div(:class='[...classes.itensContent]')
+                    img(:src='tech.iconPath')
                 h4.text-md.text-gray-900.pl-4(class='dark:text-gray-100') {{ tech.name }}
 </template>
 <script lang="ts">
@@ -86,6 +84,27 @@ export default defineComponent({
                         // eslint-disable-next-line global-require
                         iconPath: require('@/assets/images/logos/docker-logo.svg'),
                     },
+                ],
+            },
+            classes: {
+                itensRow: [
+                    'flex',
+                    'items-center',
+                    'pb-4',
+                    'w-full',
+                    'divide',
+                    'divide-x-2',
+                    'divide-violet-400',
+                    'dark:border-gray-700',
+                ],
+                itensContent: [
+                    'w-14',
+                    'h-14',
+                    'p-2',
+                    'mr-4',
+                    'flex',
+                    'justify-center',
+                    'align-center',
                 ],
             },
         };

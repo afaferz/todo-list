@@ -27,9 +27,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import SingleTask from '@/components/Task/SingleTask.vue';
-import ModalAddTask from '@/components/Task/ModalAddTask.vue';
+import ModalAddTask from '@/components/Task/ModalMiscTask.vue';
+import { ITask } from '@/@types/task';
 
 export default defineComponent({
     name: 'TaskManager',
@@ -39,7 +40,7 @@ export default defineComponent({
     },
     props: {
         tasksList: {
-            type: Array,
+            type: Array as PropType<ITask[]>,
             default: () => [],
         },
         tasksPriority: {
