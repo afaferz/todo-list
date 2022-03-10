@@ -6,7 +6,6 @@
                 :class='[{ "bg-emerald-300": task.status, "bg-indigo-400": !task.status }, classes.chip]'
             ) {{ task.status ? 'Feito' : 'A fazer' }}
             span(:class='[classes.chip, "bg-indigo-300", "ml-2"]') {{ task.type }}
-            span {{ task.id }}
         span.font-bold.my-3 {{ task.name }}
         span(v-if='task.description') {{ task.description }}
         .flex.flex-col.mt-5
@@ -41,21 +40,21 @@
                     d='M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z',
                     clip-rule='evenodd'
                 )
-        button.bg-violet-500.rounded-md.p-1.transition.duration-200.ease-in-out(
+        button.bg-violet-500.rounded-md.p-1.transition.duration-200.ease-in-out.font-bold.text-neutral-50(
             @click='finishTask(task.id, task.status)',
             class='md:opacity-0 group-hover:opacity-100'
         ) DONE
 </template>
 <script lang="ts">
 import { useStore } from '@/store';
-import { computed, defineComponent, PropType } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 interface Task {
     id: number | null;
     name: string;
     status: boolean;
     type?: string;
-    relevance: number;
+    priority: number;
     description?: string;
 }
 
@@ -70,7 +69,7 @@ export default defineComponent({
                 name: 'One task',
                 status: false,
                 type: 'study',
-                relevance: 0,
+                priority: 1,
                 description: 'A example description',
             }),
         },
@@ -80,7 +79,7 @@ export default defineComponent({
         const CONTROL_MODAL = (status: boolean) => store.commit('task/SET_SHOW_MODAL', status);
         const SET_EDIT = () => store.commit('task/SET_ACTION_TASK_TYPE', 'edit');
         const SET_TASK = (id: number) => store.commit('task/EDIT_TASK', id);
-        const SET_TASK_STATUS = (status: { id: number; done: boolean }) => store.commit('task/SET_TASK_STATUS', status);
+        const SET_TASK_STATUS = (status: { id: number; done: boolean }) => store.dispatch('task/COMPLETE_TASK', status);
         const DELETE_TASK = (id: number) => store.dispatch('task/DELETE_TASK', id);
 
         return {

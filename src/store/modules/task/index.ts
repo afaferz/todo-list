@@ -22,9 +22,6 @@ const TaskModule: Module<any, any> = {
         SET_TASKS(state, payload) {
             state.tasks = payload;
         },
-        ADD_TASK(state, payload) {
-            state.tasks.push(payload);
-        },
         EDIT_TASK(state, payload) {
             const taskToEdit = state.tasks.find(({ id }: any) => id === payload);
             state.task = taskToEdit;
@@ -42,12 +39,6 @@ const TaskModule: Module<any, any> = {
                 description: '',
                 created_at: new Date(),
             };
-        },
-        SET_TASK_STATUS(state, { id, done }) {
-            const taskToChange = state.tasks.find((task: { id: number }) => task.id === id);
-
-            const index = state.tasks.indexOf(taskToChange);
-            state.tasks[index].status = done;
         },
         UPDATE_TASK_FIELD(state, payload: string[]): void {
             const [field, value] = payload;
@@ -97,6 +88,15 @@ const TaskModule: Module<any, any> = {
                 console.log(error);
             }
         },
+        async COMPLETE_TASK({ state }, { id, done }) {
+            try {
+                const taskToComplete = state.tasks.find((task: { id: number }) => task.id === id);
+                taskToComplete.status = done;
+                await $axios.patch(`http://localhost:3030/api/tasks/${id}/`, taskToComplete);
+            } catch (error) {
+                console.log(error);
+            }
+        },
     },
 
     getters: {
@@ -116,8 +116,7 @@ const TaskModule: Module<any, any> = {
             return allTasks.filter(({ priority }: { priority: number }) => priority === priorityLevel);
         },
         // Get tasks by priority ---- end
-        GET_PENDING_TASKS: (state) => state.tasks.filter(({ status }: any) => status === false),
-        GET_DONE_TASKS: (state) => state.tasks.filter(({ status }: any) => status === true),
+        GET_TASKS_BY_STATUS: (state) => (done: boolean) => state.tasks.filter(({ status }: any) => status === done),
         GET_ACTION_TASK_TYPE: (state) => state.actionType,
         GET_SHOW_MODAL: (state) => state.showModal,
     },
